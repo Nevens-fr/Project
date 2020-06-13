@@ -51,18 +51,20 @@ void jeu_en_cours(perso_t *pers, SDL_Renderer *rendu, int *continuer, int *etat)
 
 	while(*continuer && *etat == jeu){
 
-		//printf("clock %d, ticks = %d\n", clock, SDL_GetTicks());
 
-		if(clock_depasse(&clock) && !clavier_vide(clavier)){//on actualise pas si il n'y pas de mouvement ou que le temps entre deux actualisations 
+		if(!clavier_vide(clavier)){//on actualise pas si il n'y pas de mouvement ou que le temps entre deux actualisations 
 		//n'est pas écoulé
 
-			rempli_tab_collision_map(&map);
+			if(clock_depasse(&clock)){
+				rempli_tab_collision_map(&map);
 
-			affichage_jeu(rendu, *pers, &map);
+				affichage_jeu(rendu, *pers, &map);
 
-			deplacement_joueur(pers, clavier, &map);
-			printf("%d %d\n", map.collisions[0].x, map.collisions[0].y);
-		}
+				deplacement_joueur(pers, clavier, &map);
+			
+				lire_clavier(&clavier);
+			}
+		} 
 		else if(clock_depasse(&clock))
 			lire_clavier(&clavier);
 
@@ -89,7 +91,7 @@ void jeu_en_cours(perso_t *pers, SDL_Renderer *rendu, int *continuer, int *etat)
 */
 int clock_depasse(unsigned int *clock){
 
-	if(*clock + DELAI_ACTUALISATION <= SDL_GetTicks()){
+	if(*clock + DELAI_ACTUALISATION < SDL_GetTicks()){
 		*clock = SDL_GetTicks();
 		return TRUE;
 	}

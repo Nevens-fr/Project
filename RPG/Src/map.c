@@ -163,7 +163,7 @@ void affiche_map(SDL_Renderer * rendu, map_t *map){
 /**
 *\fn int hors_tableau(int x, int y)
 
-*\param x, la position en ordonée dans le tableau de la map
+*\param x, la position en ordonée dans le tableau de la map 
 *\param y, la position en abcisse dans le tableau de la map
 
 *\return 1 si on est hors tableau, 0 sinon
